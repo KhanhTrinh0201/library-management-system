@@ -5,6 +5,7 @@ import com.example.library_project.entity.BorrowCard;
 import com.example.library_project.repository.BorrowCardRepository;
 import com.example.library_project.service.BookService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional; // 👑 THÊM IMPORT NÀY
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ public class BorrowCardController {
     // 1. MƯỢN SÁCH
     // =========================================================================
     @PostMapping
+    @Transactional // 👑 THÊM Ở ĐÂY: Bảo vệ dữ liệu, nếu lỗi tạo phiếu -> Hủy luôn việc trừ kho sách
     public ResponseEntity<?> createBorrowCard(
             @jakarta.validation.Valid
             @RequestBody com.example.library_project.dto.BorrowRequest payload) {
@@ -39,23 +41,16 @@ public class BorrowCardController {
         String borrowerName = payload.getBorrowerName();
         String phoneNumber = payload.getPhoneNumber();
         String note = payload.getNote();
-
         String dueDateStr = payload.getDueDate();
 
-        LocalDate dueDate =
-                (dueDateStr != null)
+        LocalDate dueDate = (dueDateStr != null)
                         ? LocalDate.parse(dueDateStr)
                         : LocalDate.now().plusDays(14);
 
         // Kiểm tra hạn trả
-        if (dueDate.isBefore(LocalDate.now())
-                || dueDate.isEqual(LocalDate.now())) {
-
+        if (dueDate.isBefore(LocalDate.now()) || dueDate.isEqual(LocalDate.now())) {
             return ResponseEntity.badRequest().body(
-                    Map.of(
-                            "message",
-                            "❌ Hạn trả sách phải là một ngày trong tương lai!"
-                    )
+                    Map.of("message", "❌ Hạn trả sách phải là một ngày trong tương lai!")
             );
         }
 
@@ -63,27 +58,24 @@ public class BorrowCardController {
         Book book = bookService.getBookById(bookId);
 
         // Kiểm tra tồn kho
-        if (book.getAvailableQuantity() == null
-                || book.getAvailableQuantity() <= 0) {
-
+        if (book.getAvailableQuantity() == null || book.getAvailableQuantity() <= 0) {
             return ResponseEntity.badRequest().body(
-                    Map.of(
-                            "message",
-                            "❌ Sách này hiện đã được mượn hết, vui lòng chọn cuốn khác!"
-                    )
+                    Map.of("message", "❌ Sách này hiện đã được mượn hết, vui lòng chọn cuốn khác!")
             );
         }
 
         // Giảm số lượng khả dụng
-        book.setAvailableQuantity(
-                book.getAvailableQuantity() - 1
-        );
+        book.setAvailableQuantity(book.getAvailableQuantity() - 1);
+
+        // 👑 ĐÃ SỬA: Tự động cập nhật lại trạng thái thành "Out of Stock" nếu sau khi trừ số lượng về bằng 0
+        if (book.getAvailableQuantity() == 0) {
+            book.setStatus("Out of Stock");
+        }
 
         bookService.saveBook(book);
 
         // Tạo phiếu mượn
         BorrowCard card = new BorrowCard();
-
         card.setBookId(bookId);
         card.setBorrowerName(borrowerName);
         card.setPhoneNumber(phoneNumber);
@@ -105,11 +97,7 @@ public class BorrowCardController {
     @GetMapping("/active-by-book/{bookId}")
     public ResponseEntity<List<BorrowCard>> getActiveCardsByBook(
             @PathVariable Long bookId) {
-
-        List<BorrowCard> activeCards =
-                borrowCardRepository
-                        .findByBookIdAndReturnDateIsNull(bookId);
-
+        List<BorrowCard> activeCards = borrowCardRepository.findByBookIdAndReturnDateIsNull(bookId);
         return ResponseEntity.ok(activeCards);
     }
 
@@ -117,53 +105,38 @@ public class BorrowCardController {
     // 3. TRẢ SÁCH
     // =========================================================================
     @PutMapping("/return/{cardId}")
-    public ResponseEntity<?> returnBook(
-            @PathVariable Long cardId) {
+    @Transactional // 👑 THÊM Ở ĐÂY: Đồng bộ an toàn giữa cập nhật phiếu và cộng kho
+    public ResponseEntity<?> returnBook(@PathVariable Long cardId) {
 
-        BorrowCard cardToReturn =
-                borrowCardRepository.findById(cardId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Không tìm thấy phiếu mượn hợp lệ!"
-                                ));
+        BorrowCard cardToReturn = borrowCardRepository.findById(cardId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy phiếu mượn hợp lệ!"));
 
         if (cardToReturn.getReturnDate() != null) {
-
             return ResponseEntity.badRequest().body(
-                    Map.of(
-                            "message",
-                            "Phiếu mượn này đã được xử lý trả từ trước!"
-                    )
+                    Map.of("message", "Phiếu mượn này đã được xử lý trả từ trước!")
             );
         }
 
         // Đánh dấu đã trả
         cardToReturn.setReturnDate(LocalDate.now());
-
         borrowCardRepository.save(cardToReturn);
 
         // Hoàn lại số lượng khả dụng
-        Book book =
-                bookService.getBookById(cardToReturn.getBookId());
+        Book book = bookService.getBookById(cardToReturn.getBookId());
 
         if (book.getAvailableQuantity() != null) {
-
-            book.setAvailableQuantity(
-                    book.getAvailableQuantity() + 1
-            );
+            book.setAvailableQuantity(book.getAvailableQuantity() + 1);
+            
+            // 👑 ĐÃ SỬA: Khi số lượng tăng lên > 0, ép buộc trạng thái sách phải chuyển về "Available"
+            if (book.getAvailableQuantity() > 0) {
+                book.setStatus("Available");
+            }
         }
-
-        // KHÔNG tăng quantity
-        // quantity là tổng kho
-        // availableQuantity là số sách còn cho mượn
 
         bookService.saveBook(book);
 
         return ResponseEntity.ok(
-                Map.of(
-                        "message",
-                        "Trả sách và cập nhật kho thành công!"
-                )
+                Map.of("message", "Trả sách và cập nhật kho thành công!")
         );
     }
 }

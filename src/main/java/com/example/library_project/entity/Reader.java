@@ -14,32 +14,38 @@ public class Reader {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 🔒 Ràng buộc 1: Mã thẻ độc giả không trống, từ 3-10 ký tự, viết liền không dấu
-    @NotBlank(message = "Mã độc giả không được để trống")
-    @Size(min = 3, max = 10, message = "Mã độc giả phải từ 3 đến 10 ký tự")
+    // 🌟 SỬA: Gỡ @NotBlank để Controller cho phép đi qua, giữ lại các ràng buộc định dạng
+    @Size(min = 3, max = 20, message = "Mã độc giả phải từ 3 đến 20 ký tự") 
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Mã độc giả chỉ được chứa chữ cái và số, không chứa khoảng trắng")
     @Column(name = "reader_code", unique = true, nullable = false)
     private String readerCode;
 
-    // 🔒 Ràng buộc 2: Họ tên không trống, từ 2-50 ký tự, KHÔNG được chứa số/ký tự đặc biệt
     @NotBlank(message = "Họ tên độc giả không được để trống")
     @Size(min = 2, max = 50, message = "Họ tên phải từ 2 đến 50 ký tự")
-    @Pattern(regexp = "^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲÝỴÝỶỸửữựỳýỵỷỹ\\s]+$", 
+    @Pattern(regexp = "^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấẦẩẫẬắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲÝỴÝỶỸửữựỳýỵỷỹ\\s]+$", 
              message = "Họ tên không được chứa số hoặc ký tự đặc biệt")
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    // 🔒 Ràng buộc 3: Số điện thoại chuẩn 10 số di động Việt Nam
     @NotBlank(message = "Số điện thoại không được để trống")
     @Pattern(regexp = "^(03|05|07|08|09)\\d{8}$", message = "Số điện thoại không đúng định dạng (phải gồm 10 chữ số VN)")
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    // 🔒 Ràng buộc 4: Email hợp lệ
     @NotBlank(message = "Email không được để trống")
-    @Email(message = "Địa chỉ email không đúng định dạng hợp lệ")
-    @Column(name = "email", nullable = false)
-    private String email;
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[gG][mM][aA][iI][lL]\\.[cC][oO][mM]$", 
+         message = "Địa chỉ email không đúng định dạng (Hệ thống chỉ chấp nhận tài khoản @gmail.com)")
+@Column(name = "email", nullable = false)
+private String email;
+
+    // 👑 TỰ ĐỘNG SINH MÃ TRƯỚC KHI LƯU (Dự phòng bảo vệ Database)
+    @PrePersist
+    public void prePersist() {
+        if (this.readerCode == null || this.readerCode.trim().isEmpty() || "AUTO".equals(this.readerCode)) {
+            // Tạo mã độc giả tự động dựa trên mã Unix timestamp để đảm bảo không bao giờ trùng lặp
+            this.readerCode = "DG" + System.currentTimeMillis() / 1000;
+        }
+    }
 
     // --- CONSTRUCTOR ---
     public Reader() {}

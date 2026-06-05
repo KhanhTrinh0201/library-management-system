@@ -33,7 +33,7 @@ public class Book {
     @Max(value = 1000, message = "Số lượng sách nhập một lần không được vượt quá 1000 quyển")
     private Integer quantity;
 
-// Sửa lại thành "availablequantity" viết liền để khớp với cột cũ dưới DB
+
     @Column(name = "availablequantity") 
     @NotNull(message = "Số lượng sẵn có không được để trống")
     @Min(value = 0, message = "Số lượng sách sẵn có trong kho không được nhỏ hơn 0")
