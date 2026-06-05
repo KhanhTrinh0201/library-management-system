@@ -1,0 +1,12 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">{{ data.title || 'Xác nhận hành động' }}</h2>
+  
+  <mat-dialog-content class="dialog-content">
+    <p>{{ data.message || 'Bạn có chắc chắn muốn thực hiện hành động này không?' }}</p>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-stroked-button (click)="onNoClick()">Hủy bỏ</button>
+    <button mat-flat-button color="warn" (click)="onYesClick()">Đồng ý xóa</button>
+  </mat-dialog-actions>
+</div>

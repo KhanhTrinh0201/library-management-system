@@ -1,0 +1,212 @@
+/* ==========================================================================
+   CHỈ GIỮ LẠI CÁC THUỘC TÍNH ĐẶC THÙ RIÊNG CỦA TRANG BÁO CÁO (REPORTS)
+   ========================================================================== */
+
+/* Lưới hiển thị các thẻ đếm số liệu */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  flex-shrink: 0; /* Khóa cứng chiều cao khối đếm số liệu, không cho phép flexbox bóp méo */
+}
+
+/* Định dạng thẻ Widget Card đếm số */
+.widget-card {
+  background: #ffffff;
+  border-radius: 12px !important;
+  border: 1px solid #edf2f7;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+  overflow: hidden;
+}
+
+.widget-card mat-card-content {
+  display: flex;
+  align-items: center;
+  padding: 24px !important;
+  gap: 16px;
+}
+
+/* Khung tròn bọc Icon dạng Pastel dịu mắt */
+.icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-wrapper mat-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+/* Phối màu các thẻ trạng thái */
+.status-blue .icon-wrapper { background-color: #e0f2fe; color: #0284c7; }
+.status-green .icon-wrapper { background-color: #f0fdf4; color: #16a34a; }
+.status-red .icon-wrapper { background-color: #fef2f2; color: #dc2626; }
+
+/* Khối văn bản hiển thị số liệu */
+.widget-data h3 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.widget-data p {
+  margin: 4px 0 0 0;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Dòng chữ nhỏ gợi ý click */
+.click-hint {
+  font-size: 12px;
+  display: block;
+  margin-top: 4px;
+  font-weight: 500;
+}
+.status-green .click-hint { color: #16a34a; }
+.status-red .click-hint { color: #dc2626; }
+
+/* Hiệu ứng tương tác hover nhấc nhẹ các Card */
+.widget-card.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.widget-card.clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ==========================================================================
+   🔥 SỬA CHI TIẾT: ĐÈ STYLE HỆ THỐNG - GIẢI PHÓNG KHUNG BIỂU ĐỒ CHỐNG MẤT ĐÁY
+   ========================================================================== */
+.chart-section {
+  padding: 24px !important;
+  
+  /* 👑 Tuyệt chiêu: Gỡ bỏ cơ chế co bóp của bảng, bắt buộc card biểu đồ tự tính 
+     toán chiều cao linh hoạt, giải phóng vùng bao phủ lọt ra ngoài màn hình */
+  flex: 1 1 auto !important; 
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important; 
+  overflow: hidden !important;
+}
+
+.chart-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+}
+
+.chart-content-pad {
+  padding: 0 !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+/* Đồng bộ ép cấu trúc mat-tab-group chiếm trọn phần lõi */
+.chart-content-pad mat-tab-group {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+/* Căn chỉnh header chứa bộ lọc chia đều 2 đầu */
+.chart-header-flex {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 0 0 20px 0 !important; /* Dọn dẹp padding thừa để nhường chỗ cho Chart */
+}
+
+.filter-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Khớp Dropdown tinh gọn */
+.filter-select {
+  width: 150px;
+  font-size: 13px;
+}
+.filter-select ::v-deep .mat-mdc-text-field-wrapper {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.filter-select ::v-deep .mat-mdc-form-field-infix {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  min-height: 40px !important;
+}
+
+/* 👑 SỬA GỐC RỄ: Tính toán động chiều cao Canvas dựa trên khung nhìn màn hình */
+.chart-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  margin-top: 12px;
+  
+  /* Lấy tổng chiều cao màn hình (100vh) trừ đi độ cao của Toolbar tiêu đề, 
+     Lưới 3 Card đếm phía trên, các khoảng cách Gap và phần Tab-Header.
+     Đảm bảo biểu đồ luôn vừa khít, không bao giờ bị đẩy lọt hay mất đáy! */
+  height: calc(100vh - 360px) !important;
+  min-height: 280px !important;
+}
+
+.chart-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #64748b;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Định hình lại cấu trúc nội dung Tab để nó kéo giãn Canvas */
+::v-deep .mat-mdc-tab-body-content {
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE MƯỢT MÀ TRÊN THIẾT BỊ DI ĐỘNG (MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .chart-header-flex {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px;
+  }
+  .filter-actions {
+    width: 100%;
+  }
+  .filter-select {
+    flex: 1;
+  }
+  /* Trên Mobile, giải phóng chiều cao động để người dùng cuộn xem biểu đồ */
+  .chart-wrapper {
+  position: relative !important;
+  margin-top: 12px;
+  height: calc(100vh - 420px) !important;
+  min-height: 220px !important;
+  
+  /* ⚡ Thêm 3 dòng này nếu muốn thu bớt chiều ngang và căn giữa biểu đồ */
+  max-width: 900px !important; /* Giới hạn chiều ngang tối đa */
+  width: 100% !important;
+  margin-left: auto !important; /* Căn giữa tinh tế */
+  margin-right: auto !important;
+}
+}

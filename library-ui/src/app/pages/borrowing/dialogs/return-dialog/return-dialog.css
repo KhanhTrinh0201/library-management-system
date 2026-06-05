@@ -1,0 +1,36 @@
+.text-warn {
+  color: #c62828;
+  font-weight: 600;
+}
+
+.highlight {
+  color: #1976d2;
+}
+
+.loading-box {
+  padding: 20px 0;
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Hộp thông báo màu đỏ cảnh báo nếu cuốn sách đó chưa có ai mượn */
+.no-borrowers-box {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 14px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  border-left: 4px solid #c62828;
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+mat-dialog-actions {
+  gap: 8px;
+  padding-top: 10px;
+}
+
+button {
+  border-radius: 6px !important;
+}

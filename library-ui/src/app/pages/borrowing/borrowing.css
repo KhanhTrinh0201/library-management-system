@@ -1,0 +1,58 @@
+/* ==========================================================================
+   CHỈ GIỮ LẠI CÁC THUỘC TÍNH ĐẶC THÙ RIÊNG CỦA TRANG MƯỢN TRẢ
+   ========================================================================== */
+
+/* 👑 CẬP NHẬT: Định vị chính xác chiều rộng cột và chiều cao dòng tiêu đề */
+.custom-table th.text-right {
+  width: 220px; /* Tăng nhẹ lên 220px để 2 nút Mượn/Trả nằm thoải mái không bị kích */
+  height: 52px !important; /* Ép cứng bằng chiều cao tiêu đề trang Book */
+}
+
+/* 👑 CẬP NHẬT: Ép cứng chiều cao dòng dữ liệu bằng trang Book/Độc Giả */
+.custom-table td.text-right {
+  height: 56px !important; 
+}
+
+/* Khung bọc 2 nút bấm */
+.action-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Định dạng nút bấm hành động (Mượn / Trả) */
+.btn-action {
+  border-radius: 20px !important; 
+  font-weight: 500 !important;
+  padding: 0 16px !important;
+  height: 36px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px;
+  white-space: nowrap; /* Chặn đứng lỗi rớt chữ xuống dòng */
+}
+
+/* Thu nhỏ icon trong nút cho cân đối */
+.btn-action mat-icon { 
+  font-size: 18px !important; 
+  width: 18px !important; 
+  height: 18px !important; 
+}
+
+/* Màu sắc nút Mượn Sách (Xanh hoàng gia) */
+.btn-borrow { 
+  background-color: #2563eb !important; 
+  color: #ffffff !important; 
+}
+
+/* Trạng thái nút Mượn khi hết sách */
+.btn-borrow:disabled { 
+  background-color: #e2e8f0 !important; 
+  color: #94a3b8 !important; 
+}
+
+/* Màu sắc nút Trả Sách (Cam cháy) */
+.btn-return { 
+  background-color: #ea580c !important; 
+  color: #ffffff !important; 
+}

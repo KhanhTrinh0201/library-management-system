@@ -1,0 +1,48 @@
+.dialog-title {
+  font-weight: 600;
+  color: #2c3e50;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.custom-dialog-content {
+  padding: 16px 24px !important;
+  margin: 0 !important;
+  max-height: 60vh !important;
+  overflow-x: hidden !important;
+  overflow-y: auto;
+}
+
+.dialog-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dialog-table th {
+  font-weight: 600;
+  color: #34495e;
+  background-color: #f8f9fa;
+  padding: 12px 8px !important;
+}
+
+.dialog-table td {
+  padding: 14px 8px !important;
+  color: #2c3e50;
+}
+
+.borrower-name {
+  color: #1976d2;
+}
+
+.no-data-msg {
+  text-align: center; 
+  padding: 40px; 
+  color: #95a5a6; 
+  font-style: italic;
+  font-size: 15px;
+}
+
+.dialog-actions {
+  padding: 16px 24px !important;
+  border-top: 1px solid #eee;
+}

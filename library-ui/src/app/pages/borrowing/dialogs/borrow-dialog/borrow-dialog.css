@@ -1,0 +1,71 @@
+/* Khung bọc ngoài cùng */
+.dialog-container {
+  padding: 8px;
+}
+
+/* Tiêu đề chính */
+.dialog-title {
+  margin: 0 0 16px 0 !important;
+  font-size: 22px !important;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Màu highlight tên sách đặc trưng của bạn */
+.highlight {
+  color: #1976d2;
+  font-style: italic;
+}
+
+/* Khung chứa các ô nhập (Kế thừa Flexbox cũ của bạn và tối ưu gap) */
+.dialog-form-content {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 65vh;
+}
+
+/* Bổ sung hệ lưới 2 cột cân đối cho Tên & SĐT */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Khai báo độ rộng các trường */
+.form-field {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Tinh chỉnh riêng cho ô nhập ghi chú */
+textarea {
+  resize: vertical;
+}
+
+/* Thanh hành động chân trang */
+.dialog-actions {
+  padding: 16px 0 0 0 !important;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 16px;
+  gap: 12px;
+}
+
+/* Định dạng nút bấm bo góc hiện đại theo chuẩn Angular Material mới */
+.btn-cancel, .btn-submit {
+  border-radius: 8px !important;
+  padding: 0 24px !important;
+  height: 40px !important;
+  font-weight: 500 !important;
+}
+
+.btn-cancel {
+  color: #64748b !important;
+  border-color: #cbd5e1 !important;
+}

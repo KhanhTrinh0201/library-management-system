@@ -1,0 +1,76 @@
+<div class="books-container">
+  
+  <div class="toolbar-section">
+    <h2 class="page-title">Quản Lý Thẻ Độc Giả</h2>
+    
+    <div class="action-group">
+      <div class="search-box">
+        <mat-icon>search</mat-icon>
+        <input type="text" placeholder="Tìm tên, mã thẻ, số điện thoại..." (keyup)="applyFilter($event)" />
+      </div>
+
+      <button mat-flat-button class="btn-add" (click)="openAddForm()">
+        <mat-icon>person_add</mat-icon> Thêm độc giả
+      </button>
+    </div>
+  </div>
+
+
+  <div class="table-card-container">
+    
+    <div class="table-responsive-wrapper">
+
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0 custom-table">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let reader" class="id-cell"> #{{reader.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="readerCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Mã thẻ </th>
+          <td mat-cell *matCellDef="let reader">
+            <span class="category-badge">{{reader.readerCode}}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fullName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Họ và tên </th>
+          <td mat-cell *matCellDef="let reader" class="title-cell"> {{reader.fullName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="phoneNumber">
+          <th mat-header-cell *matHeaderCellDef> Số điện thoại </th>
+          <td mat-cell *matCellDef="let reader"> {{reader.phoneNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let reader"> {{reader.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="text-right"> Thao tác </th>
+          <td mat-cell *matCellDef="let reader" class="text-right">
+            <button mat-icon-button class="action-btn edit-btn" (click)="openEditForm(reader)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="action-btn delete-btn" (click)="deleteReader(reader.id!)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row-hover"></tr>
+      </table>
+
+    </div> <mat-paginator 
+      [pageSizeOptions]="[5, 10, 20]" 
+      pageSize="5" 
+      showFirstLastButtons
+      aria-label="Phân trang độc giả">
+    </mat-paginator>
+
+  </div>
+</div>

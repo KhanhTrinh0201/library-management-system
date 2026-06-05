@@ -1,0 +1,57 @@
+/* ==========================================================================
+   CHỈ GIỮ LẠI CÁC CLASS ĐẶC THÙ RIÊNG CỦA ĐỘC GIẢ (ĐỒNG BỘ CẤU TRÚC TRANG SÁCH)
+   ========================================================================== */
+
+/* Cụm chứa ô tìm kiếm và nút "Thêm độc giả" */
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Khung bọc form thêm/sửa độc giả (Đồng bộ hiệu ứng fadeIn và bo góc của trang Sách) */
+.form-wrapper-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  margin-bottom: 20px;
+  animation: fadeIn 0.3s ease-in-out; /* Hiệu ứng mở form mượt mà mướt mắt */
+}
+
+/* Định dạng cột "Thao tác" chứa các icon Sửa/Xóa */
+.text-right {
+  text-align: right !important;
+}
+
+/* Cấu hình các nút icon (Edit / Delete) trong bảng dữ liệu */
+.action-btn { 
+  width: 36px !important; 
+  height: 36px !important; 
+  line-height: 36px !important; 
+  margin-left: 6px; 
+  border-radius: 8px !important; 
+}
+
+/* Nút Sửa thông tin */
+.edit-btn { color: #0284c7 !important; }
+.edit-btn:hover { background-color: #e0f2fe !important; }
+
+/* Nút Xóa độc giả */
+.delete-btn { color: #ef4444 !important; }
+.delete-btn:hover { background-color: #fee2e2 !important; }
+
+/* ==========================================================================
+   ANIMATION - HIỆU ỨNG HOẠT HỌA TRƯỢT MỞ FORM CỦA TRANG SÁCH
+   ========================================================================== */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(-10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+

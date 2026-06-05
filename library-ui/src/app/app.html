@@ -1,0 +1,34 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon matListItemIcon>dashboard</mat-icon> Dashboard
+      </a>
+
+      <mat-divider></mat-divider>
+      <a mat-list-item routerLink="/books" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>library_books</mat-icon> Quản lý sách
+      </a>
+      
+      <a mat-list-item routerLink="/readers" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>people</mat-icon> Quản lý độc giả
+      </a>
+
+      <a mat-list-item routerLink="/borrowing" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>swap_horiz</mat-icon> Mượn & Trả sách
+      </a>
+      
+      <a mat-list-item routerLink="/reports" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>bar_chart</mat-icon> Báo cáo thống kê
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

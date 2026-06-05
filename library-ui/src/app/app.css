@@ -1,0 +1,113 @@
+/* ==========================================================================
+   1. CONTAINER GỐC - TRIỆT TIÊU TẬN GỐC CUỘN NGANG
+   ========================================================================== */
+.sidenav-container {
+  height: 100vh;
+  width: 100vw !important;
+  overflow: hidden !important; /* Khóa cứng không cho container lớn bị cuộn */
+}
+
+/* 👑 VỊ TRÍ CHIẾN LƯỢC: Ép vùng chứa nội dung bên phải tuyệt đối không cuộn ngang */
+mat-sidenav-content {
+  overflow-x: hidden !important; /* Nội dung trang con phình ra cũng không bị cuộn ngang */
+  overflow-y: auto !important;   /* Vẫn cho phép cuộn dọc mượt mà khi trang dài */
+}
+
+/* Sidebar bên trái */
+.sidenav {
+  width: 260px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fc 100%);
+  border-right: 1px solid #e0e0e0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+  overflow-x: hidden !important; /* 🌟 Khóa cuộn ngang riêng cho thanh menu */
+}
+
+/* Main Content Wrapper bọc router-outlet */
+.main-content {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; /* Chặn mọi tia lọt viền từ Chart hoặc Table */
+}
+
+/* ==========================================================================
+   2. ĐỊNH DẠNG HEADER VÀ MENU ITEMS
+   ========================================================================== */
+
+/* Header */
+.sidebar-header {
+  background: linear-gradient(135deg, #3f51b5, #5c6bc0);
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 20px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(63, 81, 181, 0.2);
+}
+
+/* Menu Item */
+mat-nav-list a {
+  margin: 6px 10px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  font-weight: 500;
+  color: #444;
+  
+  /* 🌟 GIẢI PHÁP: Giới hạn chiều ngang tối đa của thẻ a để khi áp dụng 
+     transform translateX(5px) không bị kích phình ra ngoài vỏ bọc Sidenav */
+  max-width: calc(100% - 20px); 
+}
+
+/* Hover mượt mà, không sợ đẩy khung */
+mat-nav-list a:hover {
+  background: rgba(63, 81, 181, 0.08);
+  color: #3f51b5;
+  transform: translateX(5px);
+}
+
+/* Active */
+.active-link {
+  background: linear-gradient(
+    90deg,
+    rgba(63, 81, 181, 0.15),
+    rgba(63, 81, 181, 0.05)
+  );
+  border-left: 4px solid #3f51b5;
+  color: #3f51b5 !important;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(63, 81, 181, 0.15);
+}
+
+/* Icon */
+mat-icon {
+  margin-right: 16px;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+/* Icon hover */
+mat-nav-list a:hover mat-icon {
+  transform: scale(1.1);
+}
+
+/* Text */
+mat-list-item,
+a[mat-list-item] {
+  font-size: 15px;
+}
+
+/* ==========================================================================
+   3. THANH CUỘN DỌC TINH TẾ (WEBKIT)
+   ========================================================================== */
+.sidenav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidenav::-webkit-scrollbar-thumb {
+  background: #c5cae9;
+  border-radius: 10px;
+}
+
+.sidenav::-webkit-scrollbar-thumb:hover {
+  background: #9fa8da;
+}

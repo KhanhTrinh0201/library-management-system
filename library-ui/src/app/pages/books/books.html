@@ -1,0 +1,81 @@
+<div class="books-container">
+  <div class="toolbar-section">
+    <h2 class="page-title">Quản Lý Kho Sách</h2>
+    
+    <div class="action-group">
+      <div class="search-box">
+        <mat-icon>search</mat-icon>
+        <input 
+          type="text" 
+          placeholder="Tìm kiếm tên sách, tác giả, thể loại..." 
+          (keyup)="applyFilter($event)" 
+        />
+      </div>
+
+      <button mat-flat-button class="btn-add" (click)="openAddForm()">
+        <mat-icon>add</mat-icon> Thêm sách mới
+      </button>
+    </div>
+  </div>
+
+  <div class="table-card-container">
+    
+    <div class="table-responsive-wrapper">
+      
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0 custom-table">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let book" class="id-cell"> #{{book.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên sách </th>
+          <td mat-cell *matCellDef="let book" class="title-cell"> {{book.title}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="author">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tác giả </th>
+          <td mat-cell *matCellDef="let book"> {{book.author}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Thể loại </th>
+          <td mat-cell *matCellDef="let book">
+            <span class="category-badge">{{book.category}}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Số lượng </th>
+          <td mat-cell *matCellDef="let book"> 
+            <span class="status-badge" [class.danger]="book.quantity === 0" [class.success]="book.quantity > 0">
+              {{book.quantity}} cuốn
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="mat-column-actions text-right"> Thao tác </th>
+          <td mat-cell *matCellDef="let book" class="mat-column-actions text-right">
+            <button mat-icon-button class="action-btn edit-btn" matTooltip="Sửa thông tin" (click)="openEditForm(book)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="action-btn delete-btn" matTooltip="Xóa sách" (click)="deleteBook(book.id!)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row-hover"></tr>
+      </table>
+
+    </div> <mat-paginator 
+      [pageSizeOptions]="[5, 10, 20]" 
+      pageSize="5" 
+      showFirstLastButtons
+      aria-label="Chọn trang sách">
+    </mat-paginator>
+  </div>
+</div>

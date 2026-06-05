@@ -1,0 +1,47 @@
+<h2 mat-dialog-title class="text-warn">Xác nhận thu hồi & Trả sách</h2>
+
+<mat-dialog-content>
+  <p style="color: #444; font-size: 14px; margin-bottom: 12px;">
+    Đầu sách thực hiện: <strong class="highlight">{{ data.bookTitle }}</strong>
+  </p>
+  
+  <div *ngIf="isLoading" class="loading-box">
+    🔄 Đang tải danh sách độc giả đang mượn từ hệ thống...
+  </div>
+
+  <div *ngIf="!isLoading">
+    <div *ngIf="borrowCards.length === 0" class="no-borrowers-box">
+      ⚠️ Hệ thống ghi nhận hiện tại không có độc giả nào mượn cuốn sách này! Không thể thực hiện hành động trả sách.
+    </div>
+
+    <div *ngIf="borrowCards.length > 0">
+      <p style="font-size: 14px; color: #555; margin-bottom: 8px;">
+        Vui lòng chọn chính xác tên độc giả đang đến trả sách:
+      </p>
+      
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Danh sách độc giả đang giữ sách</mat-label>
+        <mat-select [(ngModel)]="selectedCardId" required>
+          <mat-option *ngFor="let card of borrowCards" [value]="card.id">
+            👤 {{ card.borrowerName }} 
+            <span *ngIf="card.phoneNumber"> - 📞 {{ card.phoneNumber }}</span>
+            <span style="color: #666; font-size: 12px; font-style: italic;"> 
+              (Hạn: {{ card.dueDate | date:'dd/MM/yyyy' }})
+            </span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; color: #888; margin-top: 15px; line-height: 1.4;">
+    <i>* Ghi chú: Sau khi xác nhận, hệ thống sẽ tự động đóng phiếu mượn của người được chọn và cộng lại +1 vào số lượng tồn kho trên kệ.</i>
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close(null)">Hủy bỏ</button>
+  <button mat-flat-button color="warn" [disabled]="!selectedCardId" (click)="onConfirm()">
+    Xác nhận trả sách
+  </button>
+</mat-dialog-actions>

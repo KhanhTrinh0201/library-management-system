@@ -1,0 +1,45 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">
+    📖 Lập phiếu mượn sách: <span class="highlight">{{ data.bookTitle }}</span>
+  </h2>
+
+  <form [formGroup]="borrowForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content class="dialog-form-content">
+      
+      <div class="form-grid">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Tên người mượn (Độc giả)</mat-label>
+          <input matInput formControlName="borrowerName" placeholder="Ví dụ: Nguyễn Văn A">
+          <mat-error *ngIf="borrowForm.get('borrowerName')?.hasError('required')">Tên người mượn không được để trống</mat-error>
+          <mat-error *ngIf="borrowForm.get('borrowerName')?.hasError('minlength')">Tên phải có ít nhất 2 ký tự</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Số điện thoại liên hệ</mat-label>
+          <input matInput formControlName="phoneNumber" placeholder="Ví dụ: 0912345678">
+          <mat-error *ngIf="borrowForm.get('phoneNumber')?.hasError('required')">Số điện thoại không được để trống</mat-error>
+          <mat-error *ngIf="borrowForm.get('phoneNumber')?.hasError('pattern')">Số điện thoại không hợp lệ (Phải gồm 10 số VN)</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Hạn trả sách hẹn ước</mat-label>
+        <input type="date" matInput formControlName="dueDate" [min]="minDate">
+        <mat-error *ngIf="borrowForm.get('dueDate')?.hasError('required')">Vui lòng chọn ngày hẹn trả sách</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Ghi chú (Tình trạng sách khi bàn giao)</mat-label>
+        <textarea matInput formControlName="note" rows="3" placeholder="Ví dụ: Sách mới, không rách trang..."></textarea>
+      </mat-form-field>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="dialog-actions">
+      <button type="button" mat-stroked-button (click)="onCancel()" class="btn-cancel">Hủy bỏ</button>
+      <button type="submit" mat-flat-button color="primary" [disabled]="borrowForm.invalid" class="btn-submit">
+        Xác nhận mượn
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

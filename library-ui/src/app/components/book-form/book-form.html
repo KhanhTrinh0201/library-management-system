@@ -1,0 +1,45 @@
+<h2 mat-dialog-title class="text-xl font-bold border-b pb-2">
+  {{ isEditMode ? '📝 Chỉnh sửa thông tin sách' : '📚 Thêm đầu sách mới' }}
+</h2>
+
+<mat-dialog-content class="mat-typography pt-4">
+  <form [formGroup]="bookForm" class="flex flex-col gap-4">
+    
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Tên sách</mat-label>
+      <input matInput formControlName="title" placeholder="Ví dụ: Đắc Nhân Tâm">
+      <mat-error *ngIf="bookForm.get('title')?.hasError('required')">Tên sách không được để trống</mat-error>
+      <mat-error *ngIf="bookForm.get('title')?.hasError('minlength')">Tên sách phải dài ít nhất 3 ký tự</mat-error>
+      <mat-error *ngIf="bookForm.get('title')?.hasError('maxlength')">Tên sách không được vượt quá 150 ký tự</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Tác giả</mat-label>
+      <input matInput formControlName="author" placeholder="Ví dụ: Dale Carnegie">
+      <mat-error *ngIf="bookForm.get('author')?.hasError('required')">Tên tác giả không được để trống</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Thể loại sách</mat-label>
+      <input matInput formControlName="category" placeholder="Ví dụ: Kỹ năng sống, Tiểu thuyết...">
+      <mat-error *ngIf="bookForm.get('category')?.hasError('required')">Thể loại sách không được để trống</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Số lượng nhập kho</mat-label>
+      <input type="number" matInput formControlName="quantity" placeholder="Nhập số từ 1 - 1000">
+      <mat-error *ngIf="bookForm.get('quantity')?.hasError('required')">Số lượng không được để trống</mat-error>
+      <mat-error *ngIf="bookForm.get('quantity')?.hasError('min')">Số lượng sách tối thiểu phải là 1 quyển</mat-error>
+      <mat-error *ngIf="bookForm.get('quantity')?.hasError('max')">Không được nhập quá 1000 quyển một lần</mat-error>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<div mat-dialog-actions align="end" class="gap-2 pt-2 border-t">
+  <button type="button" mat-stroked-button (click)="onCancel()">Hủy bỏ</button>
+  
+  <button type="button" mat-flat-button color="primary" [disabled]="bookForm.invalid" (click)="onSubmit()">
+    {{ isEditMode ? 'Cập nhật' : 'Lưu lại' }}
+  </button>
+</div>

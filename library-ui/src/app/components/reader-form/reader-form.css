@@ -1,0 +1,168 @@
+/* =========================================================================
+   📦 CONTAINER & KHÔNG GIAN ĐỆM CHUẨN UX
+   ========================================================================= */
+
+/* Tiêu đề Dialog */
+h2[mat-dialog-title] {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: #0f172a; /* Màu xanh đen slate hiện đại */
+  padding: 16px 24px 12px 24px !important;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Thân nội dung Form */
+mat-dialog-content {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 20px 24px !important; /* Tăng padding sang hai bên để ô nhập không dính sát viền popup */
+  margin: 0 !important;
+}
+
+/* Khối Form bọc ngoài */
+.flex.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Khoảng cách siêu thoáng giữa các hàng */
+}
+
+/* Hệ thống lưới 2 cột */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px; /* Giãn cách ngang giữa 2 ô */
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.w-full {
+  width: 100%;
+}
+
+
+/* =========================================================================
+   💅 ĐỊNH DẠNG Ô NHẬP LIỆU (MAT-FORM-FIELD) SẮC NÉT
+   ========================================================================= */
+
+/* Đổi màu viền trạng thái bình thường (Default) */
+::v-deep .mat-mdc-form-field .mdc-notched-outline__leading,
+::v-deep .mat-mdc-form-field .mdc-notched-outline__notch,
+::v-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: #cbd5e1 !important; /* Màu xám nhẹ tinh tế */
+  border-width: 1px !important;
+  border-radius: 8px !important; /* Bo góc 8px vừa vặn, không bị quá tròn */
+}
+
+/* Trạng thái khi click chuột vào ô (Focus) - Đổi từ màu cam đất sang xanh Indigo công nghệ */
+::v-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+::v-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+::v-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #4f46e5 !important; /* Indigo tinh tế */
+  border-width: 2px !important;
+}
+
+/* Trạng thái khi ô bị khóa (Disabled) như ô Mã Độc Giả */
+::v-deep .mat-mdc-form-field-disabled {
+  background-color: #f8fafc !important; /* Nền xám cực nhẹ */
+  border-radius: 8px;
+}
+::v-deep .mat-mdc-form-field-disabled .mdc-notched-outline__leading,
+::v-deep .mat-mdc-form-field-disabled .mdc-notched-outline__notch,
+::v-deep .mat-mdc-form-field-disabled .mdc-notched-outline__trailing {
+  border-color: #e2e8f0 !important;
+  background-color: transparent !important;
+}
+
+/* Màu chữ của nhãn (Label) */
+::v-deep .mat-mdc-form-field .mat-mdc-form-field-label {
+  color: #64748b !important;
+}
+::v-deep .mat-mdc-form-field.mat-focused .mat-mdc-form-field-label {
+  color: #4f46e5 !important;
+}
+
+
+/* =========================================================================
+   🚨 XỬ LÝ BLOCK ERROR (Không lo đè vỡ Form)
+   ========================================================================= */
+
+::v-deep .mat-mdc-form-field .mat-mdc-form-field-subscript-wrapper {
+  display: block !important;
+  height: auto !important;
+  margin-bottom: -8px; 
+}
+
+/* Cưỡng ép đường viền đỏ rực khi có lỗi */
+::v-deep .mat-mdc-form-field.ng-invalid.ng-touched .mdc-notched-outline__leading,
+::v-deep .mat-mdc-form-field.ng-invalid.ng-touched .mdc-notched-outline__notch,
+::v-deep .mat-mdc-form-field.ng-invalid.ng-touched .mdc-notched-outline__trailing {
+  border-color: #ef4444 !important; /* Đỏ Rose hiện đại */
+  border-width: 2px !important;
+}
+
+/* Chữ hiển thị thông tin lỗi */
+::v-deep .mat-mdc-form-field.ng-invalid.ng-touched mat-error {
+  display: block !important;
+  color: #ef4444 !important;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 4px;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+
+/* =========================================================================
+   🔘 THANH NÚT BẤM (DIALOG ACTIONS)
+   ========================================================================= */
+
+div[mat-dialog-actions] {
+  padding: 16px 24px 20px 24px !important; /* Đẩy lùi nút cách xa mép dưới */
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background-color: #ffffff;
+}
+
+/* Thiết kế nút Hủy bỏ (Stroked) */
+div[mat-dialog-actions] button[mat-stroked-button] {
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+  border-radius: 8px !important;
+  height: 40px !important;
+  padding: 0 20px !important;
+  font-weight: 500;
+  font-size: 14px;
+}
+div[mat-dialog-actions] button[mat-stroked-button]:hover {
+  background-color: #f1f5f9 !important;
+}
+
+/* Thiết kế nút Lưu lại / Cập nhật (Flat/Primary) */
+div[mat-dialog-actions] button[mat-flat-button] {
+  background-color: #4f46e5 !important; /* Màu xanh tối tân */
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  height: 40px !important;
+  padding: 0 24px !important;
+  font-weight: 500;
+  font-size: 14px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Khi nút bấm bị khóa (Disabled) */
+div[mat-dialog-actions] button[mat-flat-button]:disabled {
+  background-color: #e2e8f0 !important;
+  color: #94a3b8 !important;
+  cursor: not-allowed;
+}

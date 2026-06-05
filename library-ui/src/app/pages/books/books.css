@@ -1,0 +1,51 @@
+/* Chỉ giữ lại những gì riêng biệt của trang Sách */
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 30px;
+  padding: 6px 16px;
+  width: 300px;
+  transition: all 0.3s ease;
+}
+.search-box:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+.search-box mat-icon { color: #94a3b8; margin-right: 8px; }
+.search-box input { border: none; outline: none; width: 100%; font-size: 14px; color: #334155; }
+
+.btn-add {
+  background-color: #1e3a8a !important;
+  color: #ffffff !important;
+  border-radius: 30px !important;
+  padding: 0 20px !important;
+  font-weight: 500 !important;
+  height: 40px !important;
+}
+
+.form-wrapper-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.action-btn { width: 36px !important; height: 36px !important; line-height: 36px !important; margin-left: 6px; border-radius: 8px !important; }
+.edit-btn { color: #0284c7 !important; }
+.edit-btn:hover { background-color: #e0f2fe !important; }
+.delete-btn { color: #ef4444 !important; }
+.delete-btn:hover { background-color: #fee2e2 !important; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

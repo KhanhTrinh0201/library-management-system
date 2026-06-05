@@ -1,0 +1,96 @@
+<div class="books-container">
+  
+  <div class="toolbar-section">
+    <h2 class="page-title">Báo Cáo & Thống Kê Thư Viện</h2>
+  </div>
+
+  <div class="summary-cards">
+    <mat-card class="widget-card status-blue">
+      <mat-card-content>
+        <div class="icon-wrapper">
+          <mat-icon>book</mat-icon>
+        </div>
+        <div class="widget-data">
+          <h3>{{ totalBooks }}</h3>
+          <p>Tổng số sách trong kho</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="widget-card status-green clickable" (click)="viewBorrowingDetails()">
+      <mat-card-content>
+        <div class="icon-wrapper">
+          <mat-icon>import_contacts</mat-icon>
+        </div>
+        <div class="widget-data">
+          <h3>{{ totalBorrowing }}</h3>
+          <p>Sách đang được mượn</p>
+          <small class="click-hint">Bấm để xem danh sách ➜</small>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="widget-card status-red clickable" (click)="viewOverdueDetails()">
+      <mat-card-content>
+        <div class="icon-wrapper">
+          <mat-icon>warning</mat-icon>
+        </div>
+        <div class="widget-data">
+          <h3>{{ overdueCount }}</h3>
+          <p>Phiếu mượn quá hạn</p>
+          <small class="click-hint">Bấm để xem danh sách ➜</small>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="chart-section table-card-container">
+    <mat-card-header class="chart-header-flex">
+      <mat-card-title class="chart-title">Biểu đồ tần suất mượn sách</mat-card-title>
+      
+      <div class="filter-actions">
+        <mat-form-field appearance="outline" class="filter-select">
+          <mat-label>Chọn Năm</mat-label>
+          <mat-select [(value)]="selectedYear" (selectionChange)="onFilterChange()">
+            <mat-option *ngFor="let someYear of years" [value]="someYear">Năm {{ someYear }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-select">
+          <mat-label>Chọn Tháng</mat-label>
+          <mat-select [(value)]="selectedMonth" (selectionChange)="onFilterChange()">
+            <mat-option *ngFor="let m of months; let i = index" [value]="i + 1">Tháng {{ i + 1 }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content class="chart-content-pad">
+      <mat-tab-group animationDuration="400ms">
+        
+        <mat-tab label="Theo Tuần / Ngày">
+          <div class="chart-wrapper">
+            <canvas baseChart *ngIf="weeklyChartData && weeklyChartData.datasets[0].data.length > 0"
+                    [data]="weeklyChartData" 
+                    [options]="chartOptions" 
+                    [type]="'bar'">
+            </canvas>
+            <div *ngIf="!weeklyChartData" class="chart-loading">🔄 Đang cập nhật dữ liệu biểu đồ tuần...</div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Theo Tháng / Năm">
+          <div class="chart-wrapper">
+            <canvas baseChart *ngIf="monthlyChartData && monthlyChartData.datasets[0].data.length > 0"
+                    [data]="monthlyChartData" 
+                    [options]="chartOptions" 
+                    [type]="'line'">
+            </canvas>
+            <div *ngIf="!monthlyChartData" class="chart-loading">🔄 Đang cập nhật dữ liệu biểu đồ tháng...</div>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>

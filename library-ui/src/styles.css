@@ -1,0 +1,314 @@
+/* ==========================================================================
+   0. RESET TOÀN CỤC - TRIỆT TIÊU TẬN GỐC THANH CUỘN BẬY BẠ
+   ========================================================================== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* ==========================================================================
+   1. CONFIG SNACKBAR TOÀN CỤC
+   ========================================================================== */
+.success-snackbar {
+  --mdc-snackbar-container-color: #10b981 !important;
+  --mat-snack-bar-button-color: #ffffff !important;
+}
+.success-snackbar .mdc-snackbar__label {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+.error-snackbar {
+  --mdc-snackbar-container-color: #ef4444 !important;
+  --mat-snack-bar-button-color: #ffffff !important;
+}
+.error-snackbar .mdc-snackbar__label {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   2. KHUNG GIAO DIỆN DÙNG CHUNG CHO CÁC TRANG (CON)
+   ========================================================================== */
+
+.page-container, .books-container {
+  padding: 24px;
+  background-color: #f1f5f9; /* Hạ nền tối xuống một tông (Slate 100) để tôn Card trắng lên cực đỉnh */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Thanh toolbar chứa tiêu đề trang và ô search */
+.toolbar-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+/* Tiêu đề trang */
+.page-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  position: relative;
+  padding-bottom: 8px;
+}
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 32px;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  border-radius: 2px;
+}
+
+/* Khung bọc Card ứng dụng đổ bóng 3 lớp có chiều sâu */
+.table-card-container {
+  background: #ffffff;
+  border-radius: 16px;
+  
+  /* Đổ bóng 3 tầng tương phản cao + Viền xám bám sát tinh tế */
+  border: 1px solid #cbd5e1 !important; 
+  box-shadow: 
+    0 1px 2px rgba(15, 23, 42, 0.05),
+    0 12px 24px -4px rgba(15, 23, 42, 0.12),
+    0 4px 12px -2px rgba(15, 23, 42, 0.04) !important;
+    
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Khung bọc riêng cái bảng */
+.table-responsive-wrapper {
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Cấu trúc bảng Angular Material chung */
+.custom-table {
+  width: 100%;
+}
+
+/* Làm tựa đề bảng (Header) đậm và rõ nét hơn hẳn */
+.custom-table th {
+  background-color: #f8fafc !important; /* Màu nền header bảng sạch sẽ */
+  color: #1e293b !important; /* Đẩy chữ lên màu tối hẳn (Slate 800) để không bị mờ nhạt */
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  padding: 18px 20px !important;
+  border-bottom: 2px solid #cbd5e1 !important; /* Đường viền đáy header đậm nét hơn */
+}
+
+.custom-table td {
+  padding: 16px 20px !important;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #e2e8f0 !important; /* Đường kẻ giữa các hàng rõ ràng */
+}
+
+/* Hiệu ứng hover dòng */
+.table-row-hover {
+  transition: background-color 0.15s ease;
+}
+.table-row-hover:hover {
+  background-color: #f1f5f9 !important; /* Hiệu ứng hover rõ hơn một chút */
+}
+
+.title-cell {
+  font-weight: 600;
+  color: #0f172a; /* Ép chữ tiêu đề đậm hẳn */
+}
+.id-cell {
+  font-weight: 600;
+  color: #64748b;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+/* Badge phân loại */
+.category-badge {
+  background-color: #eff6ff;
+  color: #2563eb;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #dbeafe;
+  display: inline-block;
+}
+
+/* Badge trạng thái */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+.status-badge.success {
+  background-color: #f0fdf4;
+  color: #16a34a;
+}
+.status-badge.danger {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+/* ==========================================================================
+   BỔ SUNG VÀO PHẦN 2: THANH TÌM KIẾM, NÚT BẤM VÀ CÁC THAO TÁC HỆ THỐNG
+   ========================================================================== */
+
+/* Cụm chứa ô tìm kiếm và nút hành động nằm ngang */
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Ô tìm kiếm bo tròn dạng viên thuốc hiện đại */
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1; /* Đồng bộ viền màu Slate 300 rõ nét */
+  border-radius: 99px; /* Bo tròn hoàn toàn */
+  padding: 0 16px;
+  height: 40px;
+  width: 320px;
+  transition: all 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* 👑 FIX SỬA: Đồng bộ dòng và kích thước font chuẩn icon Angular M3 */
+.search-box mat-icon {
+  color: #94a3b8;
+  margin-right: 8px;
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 👑 FIX SỬA: Ép input chiếm trọn chiều cao để căn giữa chữ theo trục dọc */
+.search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  color: #334155;
+  background: transparent;
+}
+
+/* Nút "Thêm mới" bo tròn đồng bộ */
+.btn-add {
+  background-color: #1e3a8a !important; /* Xanh Navy sang trọng */
+  color: #ffffff !important;
+  border-radius: 99px !important; /* Đồng bộ bo tròn viên thuốc */
+  padding: 0 20px !important;
+  font-weight: 600 !important;
+  height: 40px !important;
+  box-shadow: 0 4px 10px rgba(30, 58, 138, 0.15) !important; /* Đổ bóng nhẹ cho nút */
+}
+
+/* Các nút bấm hành động (Sửa/Xóa) nhỏ trong bảng dữ liệu */
+.action-btn { 
+  width: 36px !important; 
+  height: 36px !important; 
+  line-height: 36px !important; 
+  margin-left: 6px; 
+  border-radius: 8px !important; 
+}
+
+/* Hiệu ứng màu nút Sửa */
+.edit-btn { color: #0284c7 !important; }
+.edit-btn:hover { background-color: #e0f2fe !important; }
+
+/* Hiệu ứng màu nút Xóa */
+.delete-btn { color: #ef4444 !important; }
+.delete-btn:hover { background-color: #fee2e2 !important; }
+
+/* Khung bọc Form chung với hiệu ứng hoạt họa xuất hiện mượt mà */
+.form-wrapper-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   3. CẤU HÌNH PHÂN TRANG MAT-PAGINATOR RA GIỮA
+   ========================================================================== */
+.table-card-container mat-paginator {
+  display: block !important;
+  width: 100% !important;
+  border-top: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #475569;
+  font-size: 13px;
+  padding: 8px 0;
+  flex-shrink: 0;
+}
+
+.table-card-container mat-paginator .mat-mdc-paginator-container {
+  display: flex !important;
+  justify-content: center !important; 
+  width: 100% !important;
+}
+
+.table-card-container mat-paginator .mat-mdc-paginator-page-size {
+  justify-content: center !important;
+  flex: none !important; 
+}
+
+.table-card-container mat-paginator .mat-mdc-paginator-range-actions {
+  margin-left: 16px !important;
+  flex: none !important;        
+}
+
+/* Đóng vai trò gọt lại góc bo của khung viền to ngoài cùng */
+.custom-modern-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 16px !important; /* Thay vì tròn xòe, 16px là tiêu chuẩn của các app cao cấp */
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important; /* Đổ bóng mịn màng */
+}
+
